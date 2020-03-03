@@ -14,18 +14,27 @@ Quick note that I ran the server using TemEE 9.0.30
  
 Below is an installation and quickstart guide to getting your first IntelliJ Project and Server running:
 
-Server side installations
 Part 1. Installation of Open JDK
+
 Visit https://adoptopenjdk.net and choose your appropriate installer to install Open JDK 12 and Open J9. Do not choose the defaults, rather be sure to choose Open JDK12 and Open J9.
+
 Installer instructions: https://adoptopenjdk.net/installation.html#installers
+
 From the command line, javac -version and java -version should both report the version
 number as 12.
+
 Part 2. Installation of IntelliJ IDEA Ultimate
-To use your student credentials with JetBrains for the free version of IntelliJ for educational use: https://www.jetbrains.com/student/. Otherwise IntelliJ Ultimate may be downloaded from here: https://www.jetbrains.com/idea/
+To use your student credentials with JetBrains for the free version of IntelliJ for educational use: https://www.jetbrains.com/student/. 
+
+Otherwise IntelliJ Ultimate may be downloaded from here: https://www.jetbrains.com/idea/
+
 Download and install IntelliJ IDEA Ultimate.
+
 Write a Java program that displays “Hello World”.
+
 Part 3. Installation of TomEE+
 Visit http://tomee.apache.org/download-ng.html and download the most recent version of TomEE Plus (Note: “Plus”, not “Plume”.)
+
 Copy the TomEE directory to an appropriate directory on your file system. The directory path should contain no spaces. Do not change the name of the TomEE Plus directory.
 1. Open IntelliJ and create a new project.
 2. Under Java/ Java EE /select Web Application
