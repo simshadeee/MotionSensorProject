@@ -1,0 +1,17 @@
+Mosquitto can be downloaded 
+from here: http://mosquitto.org/download/. 
+
+
+You can install Mosquitto on your MAC using brew. See http://brew.sh and then
+use "brew install mosquitto". There are directions on the mosquitto web site for 
+Windows users.
+
+My copy of mosquitto is located at /usr/local/sbin. If I change to that 
+directory, I can run mosquitto (picking up the configuration file) with the command 
+
+mosquitto -c /usr/local/etc/mosquitto/mosquitto.conf -v
+
+
+To Run Mosquitto Use the following command in terminal:
+ mosquitto -c /usr/local/etc/mosquitto/mosquitto.conf -v
+

@@ -1,0 +1,77 @@
+// For debugging purposes, download the Particle CLI and run ‘particle serial monitor’  to see the code run
+// This #include statement was automatically added by the Particle IDE.
+#include <MQTT.h>
+
+
+int ledPin = D7;                 // choose the pin for the LED
+int inputPin = D0;               // choose the PIR sensor pin
+
+byte server[] = {128, 237, 000, 00}; // CHANGE THIS IP ADDRESS
+MQTT client(server, 1883, callback);
+
+String run = "OFF";
+int motionCounter = 0;           // variable to count motion events
+bool isMotion;                  // status of motion sensor
+
+
+// receive message
+//called when message is received from subscribed topics
+void callback(char* topic, byte* payload, unsigned int length) {
+    Serial.println("Received");
+    char p[length + 1];
+    memcpy(p, payload, length);
+    p[length] = NULL;
+    run = p;
+    Serial.println(p);
+    
+}
+
+
+void setup() {
+    pinMode(ledPin, OUTPUT);       // set LED as output
+    pinMode(inputPin, INPUT);      // set sensor as input
+    // connect to the server
+    client.connect("photonPublisher");
+    client.subscribe("motion");
+    client.publish("motion","The motion sensor is connected");
+    
+
+}
+
+void determineMotion() {    // this function determines if there's motion
+    if(motionCounter < 1) { // if very little motion was detected
+        if(isMotion == 0) { // only publish if the status changed
+            client.publish("motion","NO");
+            }
+        isMotion = 1; // set the status to available
+    } else if (motionCounter >= 1) {
+        if(isMotion == 1) { // only publish if the status changed
+            client.publish("motion","MOTION");
+            }
+        isMotion = 0; // set the status to in use
+    }
+    motionCounter = 0; // reset motion counter
+}
+
+
+void loop() {
+    client.loop();
+    if (!strcmp(run, "OFF")) {
+        digitalWrite(ledPin, LOW);          // turn LED OFF if no input
+    } else if ((!strcmp(run, "ON")) || (!strcmp(run, "MOTION"))  || (!strcmp(run, "NO"))) {
+        determineMotion();
+        if (digitalRead(inputPin) == HIGH) {  // check if the input is HIGH
+            motionCounter++; 
+            Serial.println(motionCounter);
+            digitalWrite(ledPin, HIGH);         // turn LED ON if high
+            for(int i = 0; i<5; i++){
+                tone(D2, 5000, 100);
+                delay(200);
+            }
+        } else {
+        digitalWrite(ledPin, LOW); 
+        }
+    }
+    delay(500);   // wait 0.5s
+
+}
