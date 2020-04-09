@@ -66,3 +66,44 @@ response.getWriter().append("Hello from TestServlet ");
 While testing, leave these alone. You should just work from the defaults provided. You can set the URL with:
 Run/Edit Configurations/Deployment/Application Context
 The test browser visits the location specified at: Run/Edit Configurations/Server/Open browser/URL
+
+Part 4: Installing and Running Mosquitto
+
+You can install Mosquitto on your MAC using brew. See http://brew.sh and then
+use "brew install mosquitto". There are directions on the mosquitto web site for 
+Windows users.
+
+When you run mosquitto, it will run with its default configuration. We need to change 
+its configuration to allow for WebSocket connections (we want to visit the server from 
+Javascript). To change the configuration of Mosquitto, we can modify the configuration 
+file found at /usr/local/etc/mosquitto/mosquitto.conf (on a MAC). My configuration file 
+contains these lines:
+
+listener 1883
+protocol mqtt
+
+listener 9002
+protocol websockets
+
+
+My copy of mosquitto is located at /usr/local/sbin. If I change to that 
+directory, I can run mosquitto (picking up the configuration file) with the command 
+
+mosquitto -c /usr/local/etc/mosquitto/mosquitto.conf -v
+
+Once you have Mosquitto running, we want to connect to the server from Javascript running
+in a browser. We do not want to write the client side MQTT code ourselves. Even though we have 
+easy access to WebSockets, it would be far better to use an existing Javascript  library 
+that provides a convenient API to MQTT. The implementation of the API will, of course, 
+use Websockets below the scenes.
+
+In our web pages, we will include the Javascript library from Paho. It is called mqttws31.js.
+There is a very nice getting started section at the following link. It has a simple example of a 
+Javascript client that will run in a web page. It is very useful for us:
+
+	https://eclipse.org/paho/clients/js/
+
+The mqttws31.js Javascript library can be included in your HTML with this script:
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.js" type="text/javascript"></script>
+
